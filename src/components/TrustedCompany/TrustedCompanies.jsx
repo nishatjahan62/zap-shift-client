@@ -17,6 +17,7 @@ const logos = [logo1, logo2, logo3, logo4, logo5, logo6];
 
 const TrustedCompanies = () => {
   return (
+    <div>
     <section className="lg:my-18 bg-amber-50  rounded-2xl  py-8">
       {/* Heading */}
       <div className="max-w-6xl  mx-auto text-center mb-10 px-4">
@@ -61,6 +62,8 @@ const TrustedCompanies = () => {
         ))}
       </Swiper>
     </section>
+    <div className="text-blue-600 border-b-2 border-dashed lg:mb-18 my-15"></div>
+    </div>
   );
 };
 
