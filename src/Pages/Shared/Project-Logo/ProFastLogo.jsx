@@ -1,12 +1,13 @@
 import React from 'react';
-import logo from "../../../assets/images/logo.png"
+import logo from "../../../assets/images/logo.png";
+
 const ProFastLogo = () => {
-    return (
-        <div>
-            <img src={logo} alt="" />
-            <p className='text-2xl relative pl-5 -top-8.5 font-extrabold '>profast</p>
-        </div>
-    );
+  return (
+    <div className="flex items-center ">
+      <img src={logo} alt="Profast Logo" className="" />
+      <span className="text-3xl font-bold text-neutral-800 pt-7 -ml-3">Profast</span>
+    </div>
+  );
 };
 
 export default ProFastLogo;

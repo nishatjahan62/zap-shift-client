@@ -4,7 +4,7 @@ import ProFastLogo from '../Project-Logo/ProFastLogo';
 const Footer = () => {
     return (
         <div>
-            <footer className="footer footer-horizontal footer-center bg-base-200 text-base-content rounded p-10">
+            <footer className="footer rounded-2xl footer-horizontal footer-center bg-base-200 text-base-content rounded p-10">
                 <div className='grid gap-0'>
            <ProFastLogo></ProFastLogo>
               <p className='text-c,'>Enjoy fast, reliable parcel delivery with real-time tracking and zero hassle. From personal packages to business shipments — we deliver on time, every time.</p>   

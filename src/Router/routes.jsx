@@ -7,6 +7,9 @@ import ErrorPage from "../Pages/Error/ErrorPage";
 import AboutUs from "../Pages/AboutUs/AboutUs";
 import Home from "../Pages/Home/Home";
 import AllFaq from "../components/FAQ/AllFaq";
+import Login from "../Pages/Authentication/Login/Login";
+import Register from "../Pages/Authentication/Register/Register";
+import ForgetPassword from "../Pages/Authentication/ForgetPassword/ForgetPassword";
 
 
 export const router = createBrowserRouter([
@@ -34,10 +37,18 @@ export const router = createBrowserRouter([
     Component: AuthLayout,
     children: [
       {
-        path: "auth/login",
+        path: "login",
+        element:<Login></Login>,
       },
       {
-        path: "auth/register",
+        path: "register",
+        element:<Register></Register>,
+
+      },
+        {
+        path: "forget-password",
+        element:<ForgetPassword></ForgetPassword>,
+
       },
     ],
   },
