@@ -5,6 +5,8 @@ import HowItWorks from '../../components/HowItWorks/HowItWorks';
 import TrustedCompanies from '../../components/TrustedCompany/TrustedCompanies';
 import Features from '../../components/Features/features';
 import Merchants from '../../components/Merchants/Merchants';
+import Reviews from '../../components/Review/Reviews';
+import Faq from '../../components/FAQ/faq';
 
 const Home = () => {
     return (
@@ -15,6 +17,8 @@ const Home = () => {
             <TrustedCompanies></TrustedCompanies>
             <Features></Features>
             <Merchants></Merchants>
+            <Reviews></Reviews>
+            <Faq></Faq>
 
         </div>
     );

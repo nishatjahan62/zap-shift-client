@@ -6,6 +6,8 @@ import ErrorLayout from "../Layouts/ErrorLayout";
 import ErrorPage from "../Pages/Error/ErrorPage";
 import AboutUs from "../Pages/AboutUs/AboutUs";
 import Home from "../Pages/Home/Home";
+import AllFaq from "../components/FAQ/AllFaq";
+
 
 export const router = createBrowserRouter([
   {
@@ -21,6 +23,10 @@ export const router = createBrowserRouter([
         path: "about-us",
         element: <AboutUs></AboutUs>,
       },
+      {
+        path:"all-faq",
+        element:<AllFaq></AllFaq>
+      }
     ],
   },
   {
