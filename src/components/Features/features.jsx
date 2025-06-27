@@ -31,6 +31,9 @@ const Features = () => {
   return (
     <section className="lg:my-18 my-15">
       <div className="max-w-6xl mx-auto px-4 grid gap-8">
+        <div className="text-4xl font-bold text-center text-primary mb-8">
+          Why Choses us
+        </div>
         {featureData.map((feature) => (
           <div
             key={feature.id}
@@ -46,7 +49,7 @@ const Features = () => {
             </div>
 
             {/* Vertical Dotted Line */}
-            <div className="hidden sm:flex h-full border-1 border-dotted border-blue-400 mx-6 mr-10"></div>
+            <div className="hidden sm:flex h-full border-1 border-dotted border-primary mx-6 mr-10"></div>
 
             {/* Content */}
             <div className="text-left">

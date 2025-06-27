@@ -38,7 +38,7 @@ const HowItWorks = () => {
   return (
     <section className="my-20 px-4">
       <div className="max-w-6xl mx-auto">
-        <h2 className="text-4xl font-bold text-left text-blue-600 mb-12">
+        <h2 className="text-4xl font-bold text-left text-primary mb-12">
           How it works
         </h2>
 
@@ -50,7 +50,7 @@ const HowItWorks = () => {
                 <motion.div
                   initial={{ opacity: 0, x: -20 }}
                   whileInView={{ opacity: 1, x: 0 }}
-                  transition={{ delay: index * 0.4, duration: 0.4 }}
+                  transition={{ delay: index * 0.2, duration: 0.2 }}
                   className="hidden sm:flex items-center justify-center "
                 >
                   <HiArrowNarrowRight className="text-4xl text-teal-600" />

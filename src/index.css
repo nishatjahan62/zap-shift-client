@@ -1,5 +1,14 @@
 @import "tailwindcss";
-@plugin "daisyui";
+@plugin "daisyui"{
+   themes: light --default;
+}
+/* set colors */
+@plugin "daisyui/theme" {
+  name: "light";
+  default: true;
+  --color-primary: #CAEB66;
+  --color-secondary: #03373D;
+}
 
 /* font */
 @import url("https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap");
