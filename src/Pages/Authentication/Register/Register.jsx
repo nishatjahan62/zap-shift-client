@@ -1,6 +1,8 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router";
+import UseAuth from "../../../Hooks/UseAuth";
+import Swal from "sweetalert2";
 
 const Register = () => {
   const {
@@ -8,9 +10,24 @@ const Register = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-
+  const { createUser } = UseAuth();
   const onsubmit = (data) => {
-    console.log(data);
+    const { email, password } = data;
+    createUser(email, password)
+      .then((res) => {
+        console.log(res.user);
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "Account Created",
+          text: "Your Account has been created successfully",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
   return (
     <div className="w-full max-w-md ">
@@ -50,38 +67,37 @@ const Register = () => {
             <p role="alert">{errors.email.message}</p>
           )}
         </div>
-       
-        <div>
-  <label className="block text-sm font-medium text-gray-600">
-    Password
-  </label>
-  <input
-    type="password"
-    {...register("password", {
-      
-      minLength: {
-        value: 6,
-        message: "Password must be at least 6 characters",
-      },
-      pattern: {
-        value: /^[A-Za-z]+$/i,
-        message: "Only letters are allowed in the password",
-      },
-    })}
-    className="w-full px-4 py-2 mt-1 border rounded-md focus:outline-none focus:ring-2 focus:ring-teal-400"
-    placeholder="Enter your password"
-    required
-  />
 
-  {errors.password && (
-    <p role="alert" className="text-sm text-red-500 mt-1">
-      {errors.password.message}
-      {errors.password?.type === "required" && (
-            <p role="alert">{errors.password.message}</p>
+        <div>
+          <label className="block text-sm font-medium text-gray-600">
+            Password
+          </label>
+          <input
+            type="password"
+            {...register("password", {
+              minLength: {
+                value: 6,
+                message: "Password must be at least 6 characters",
+              },
+              pattern: {
+                value: /^[A-Za-z]+$/i,
+                message: "Only letters are allowed in the password",
+              },
+            })}
+            className="w-full px-4 py-2 mt-1 border rounded-md focus:outline-none focus:ring-2 focus:ring-teal-400"
+            placeholder="Enter your password"
+            required
+          />
+
+          {errors.password && (
+            <p role="alert" className="text-sm text-red-500 mt-1">
+              {errors.password.message}
+              {errors.password?.type === "required" && (
+                <p role="alert">{errors.password.message}</p>
+              )}
+            </p>
           )}
-    </p>
-  )}
-</div>
+        </div>
 
         <button
           type="submit"
@@ -90,7 +106,7 @@ const Register = () => {
           <span class="absolute right-0  -mt-12 transition-all duration-1000 transform translate-x-12 bg-white opacity-10 rotate-12 group-hover:-translate-x-40 ease"></span>
           <span class="relative text-black">Sign up</span>
         </button>
-        
+
         <p className="text-sm text-center text-gray-600">
           already have an account?{" "}
           <Link

@@ -52,15 +52,15 @@ const Navbar = () => {
         <div className="navbar-end">
           <Link to={"/auth/login"}>
             {" "}
-            <button className="border border-primary rounded px-5 py-2.5 overflow-hidden group relative text-secondary hover:ring-2 hover:ring-offset-2 hover:ring-primary transition-all ease-out duration-300">
+            <button className="cursor-pointer border border-primary rounded px-5 py-2.5 overflow-hidden group relative text-secondary hover:ring-2 hover:ring-offset-2 hover:ring-primary transition-all ease-out duration-300">
               <span className="absolute right-0 transition-all duration-1000 transform translate-x-12 bg-primary opacity-10 rotate-12 group-hover:-translate-x-40 ease"></span>
               <span className="relative font-bold">Sign In</span>
-            </button> </Link>
-            <button class=" rounded ml-3 px-5 py-2.5 overflow-hidden group bg-primary relative  hover:to-secondary text-white hover:ring-2 hover:ring-offset-2 hover:ring-primary transition-all ease-out duration-300">
-              <span class="absolute right-0  transition-all duration-1000 transform translate-x-12 bg-white opacity-10 rotate-12 group-hover:-translate-x-40 ease"></span>
-              <span class="relative text-black font-bold">Be a rider</span>
-            </button>
-         
+            </button>{" "}
+          </Link>
+          <button class="cursor-pointer rounded ml-3 px-5 py-2.5 overflow-hidden group bg-primary relative  hover:to-secondary text-white hover:ring-2 hover:ring-offset-2 hover:ring-primary transition-all ease-out duration-300">
+            <span class="absolute right-0  transition-all duration-1000 transform translate-x-12 bg-white opacity-10 rotate-12 group-hover:-translate-x-40 ease"></span>
+            <span class="relative text-black font-bold">Be a rider</span>
+          </button>
         </div>
       </div>
     </div>

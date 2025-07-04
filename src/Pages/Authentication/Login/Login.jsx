@@ -1,12 +1,34 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router";
+import { Link, Navigate, useLocation, useNavigate } from "react-router";
+import UseAuth from "../../../Hooks/UseAuth";
+import GoogleLogin from "../SocialLogin/GoogleLogin";
+import Swal from "sweetalert2";
 
 const Login = () => {
   const { register, handleSubmit } = useForm();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/";
 
+  const { signIn } = UseAuth();
   const onsubmit = (data) => {
-    console.log(data);
+    const { email, password } = data;
+    signIn(email, password)
+      .then((result) => {
+        result.user;
+
+        Swal.fire({
+          title: "Welcome Back!",
+          text: "You have successfully logged in. ",
+          icon: "success",
+          showConfirmButton: false,
+        });
+        navigate(from);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
   return (
     <div className="w-full max-w-md ">
@@ -37,7 +59,7 @@ const Login = () => {
         </div>
         <button
           type="submit"
-          class=" rounded w-full py-2.5 overflow-hidden group bg-primary relative  hover:to-secondary text-white hover:ring-2 hover:ring-offset-2 hover:ring-primary transition-all ease-out duration-300"
+          class=" cursor-pointer rounded w-full py-2.5 overflow-hidden group bg-primary relative  hover:to-secondary text-white hover:ring-2 hover:ring-offset-2 hover:ring-primary transition-all ease-out duration-300"
         >
           <span class="absolute right-0  -mt-12 transition-all duration-1000 transform translate-x-12 bg-white opacity-10 rotate-12 group-hover:-translate-x-40 ease"></span>
           <span class="relative text-black">Sign In</span>
@@ -46,11 +68,16 @@ const Login = () => {
         <Link to="/auth/forget-password">Forget Password?</Link>
 
         <p className="text-sm text-center text-gray-600">
-          Don’t have an account?{" "}
+          Don’t have an account?
           <Link to="/auth/register" className="text-teal-600 hover:underline">
             Register here
           </Link>
         </p>
+        <div className="w-full text-center">
+          <p>OR</p>
+
+          <GoogleLogin></GoogleLogin>
+        </div>
       </form>
     </div>
   );
