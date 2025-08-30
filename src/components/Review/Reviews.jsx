@@ -74,7 +74,7 @@ const CustomerReviews = () => {
   };
 
   return (
-    <section className="bg-base-200 py-16 lg:my-20 sm:my-12 rounded-3xl">
+    <section className="bg-base-200 py-16 lg:my-20 sm:my-12 rounded-3xl mx-5">
       <div className="max-w-6xl mx-auto text-center px-4">
         <h2 className="text-3xl lg:text-4xl font-bold text-neutral mb-4">
           What our customers are saying
@@ -89,7 +89,7 @@ const CustomerReviews = () => {
             return (
               <div key={review.id} className="px-4">
                 <div
-                  className={`rounded-2xl shadow-md p-6 text-left relative min-h-[300px] transition-all duration-500 mx-2 ${
+                  className={`rounded-2xl shadow-md p-6 text-left relative min-h-[300px] transition-all lg:max-w-md max-w-sm mx-auto duration-500  ${
                     isActive
                       ? "bg-white opacity-100 scale-105 z-10"
                       : "bg-white opacity-40 scale-95"

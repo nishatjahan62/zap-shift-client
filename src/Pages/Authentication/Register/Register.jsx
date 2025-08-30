@@ -10,12 +10,15 @@ const Register = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const { createUser } = UseAuth();
+  const { createUser, setUser, updateUser } = UseAuth();
   const onsubmit = (data) => {
-    const { email, password } = data;
+    const { name, email, password } = data;
     createUser(email, password)
       .then((res) => {
-        console.log(res.user);
+        const user = res.user;
+        updateUser({ displayName: name }).then(() => {
+          setUser({ ...user, displayName: name });
+        });
         Swal.fire({
           position: "center",
           icon: "success",
@@ -42,6 +45,7 @@ const Register = () => {
           <input
             type="text"
             {...register("name")}
+            name="name"
             className="w-full px-4 py-2 mt-1 border rounded-md focus:outline-none focus:ring-2 focus:ring-teal-400"
             placeholder="your name"
             required

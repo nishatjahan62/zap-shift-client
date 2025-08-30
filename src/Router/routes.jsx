@@ -10,7 +10,14 @@ import AllFaq from "../components/FAQ/AllFaq";
 import Login from "../Pages/Authentication/Login/Login";
 import Register from "../Pages/Authentication/Register/Register";
 import ForgetPassword from "../Pages/Authentication/ForgetPassword/ForgetPassword";
+import Coverage from "../Pages/Coverage/Coverage";
+import PrivateRoutes from "./PrivateRoutes";
+import SendParcel from "../Pages/SendParcel/SendParcel";
+import DashboardLayout from "../Layouts/DashboardLayout";
 
+import ViewParcelsDetails from "../Pages/ViewParcelsDetails/ViewParcelsDetails";
+import MyParcels from "../Pages/Dashboard/MyParcels/MyParcels";
+import Payment from "../Pages/Dashboard/Payment/Payment";
 
 export const router = createBrowserRouter([
   {
@@ -27,9 +34,41 @@ export const router = createBrowserRouter([
         element: <AboutUs></AboutUs>,
       },
       {
-        path:"all-faq",
-        element:<AllFaq></AllFaq>
-      }
+        path: "all-faq",
+        element: <AllFaq></AllFaq>,
+      },
+      {
+        path: "coverage",
+        element: <Coverage></Coverage>,
+        loader: () => fetch("../../public/district.json"),
+      },
+      {
+        path: "My-parcel",
+        element: (
+          <PrivateRoutes>
+            <MyParcels></MyParcels>
+          </PrivateRoutes>
+        ),
+      },
+
+      {
+        path: "send-parcel",
+        element: (
+          <PrivateRoutes>
+            <SendParcel></SendParcel>
+          </PrivateRoutes>
+        ),
+        loader: () => fetch("../../public/district.json"),
+      },
+        {
+        path: "view-parcels-details/:id",
+        element: (
+          <PrivateRoutes>
+            <ViewParcelsDetails></ViewParcelsDetails>
+          </PrivateRoutes>
+        ),
+      },
+     
     ],
   },
   {
@@ -38,17 +77,15 @@ export const router = createBrowserRouter([
     children: [
       {
         path: "login",
-        element:<Login></Login>,
+        element: <Login></Login>,
       },
       {
         path: "register",
-        element:<Register></Register>,
-
+        element: <Register></Register>,
       },
-        {
+      {
         path: "forget-password",
-        element:<ForgetPassword></ForgetPassword>,
-
+        element: <ForgetPassword></ForgetPassword>,
       },
     ],
   },
@@ -62,4 +99,35 @@ export const router = createBrowserRouter([
       },
     ],
   },
+{
+  path: "/dashboard",
+  element: (
+    <PrivateRoutes>
+      <DashboardLayout />
+    </PrivateRoutes>
+  ),
+  children: [
+    {
+      index: true, 
+      element: <h2>Welcome to your dashboard</h2>,
+    },
+    {
+      path: "my-parcels", 
+      element: (
+        <PrivateRoutes>
+          <MyParcels/>
+        </PrivateRoutes>
+      ),
+    },
+    {
+      path: "payment/:parcelId", 
+      element: (
+        <PrivateRoutes>
+          <Payment/>
+        </PrivateRoutes>
+      ),
+    },
+  ],
+},
+
 ]);

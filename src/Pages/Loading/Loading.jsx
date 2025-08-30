@@ -3,7 +3,7 @@ import React from 'react';
 const Loading = () => {
     return (
         <div>
-            <span className="loading loading-spinner text-secondary loading-4xl"></span>
+            <span className="loading loading-spinner  text-primary loading-4xl"></span>
         </div>
     );
 };

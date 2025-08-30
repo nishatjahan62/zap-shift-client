@@ -42,23 +42,36 @@ const HowItWorks = () => {
           How it works
         </h2>
 
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 relative">
+        <div className="flex flex-col sm:grid sm:grid-cols-2 lg:flex lg:flex-row sm:items-center sm:justify-between gap-6 relative">
           {cards.map((card, index) => (
             <React.Fragment key={index}>
-              {/* ✅ Animated Arrow before card */}
+              {/* Arrows between cards */}
               {index !== 0 && (
-                <motion.div
-                  initial={{ opacity: 0, x: -20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  transition={{ delay: index * 0.2, duration: 0.2 }}
-                  className="hidden sm:flex items-center justify-center "
-                >
-                  <HiArrowNarrowRight className="text-4xl text-teal-600" />
-                </motion.div>
+                <>
+                  {/* Horizontal Arrow (Right) for sm+ screens */}
+                  <motion.div
+                    initial={{ opacity: 0, x: -20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    transition={{ delay: index * 0.2, duration: 0.2 }}
+                    className="hidden sm:flex items-center justify-center"
+                  >
+                    <HiArrowNarrowRight className="text-4xl text-teal-600" />
+                  </motion.div>
+
+                  {/* Vertical Arrow (Down) for xs screens */}
+                  <motion.div
+                    initial={{ opacity: 0, y: -10 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ delay: index * 0.2, duration: 0.2 }}
+                    className="flex sm:hidden items-center justify-center my-2"
+                  >
+                    <HiArrowNarrowRight className="text-4xl text-teal-600 transform rotate-90" />
+                  </motion.div>
+                </>
               )}
 
-              {/* ✅ Card comes AFTER arrow */}
-              <div className="flex-1 min-w-[230px]">
+              {/* Card itself */}
+              <div className="flex justify-center sm:justify-start flex-1 min-w-[230px]">
                 <WorkCards card={card} index={index} />
               </div>
             </React.Fragment>
