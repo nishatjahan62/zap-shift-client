@@ -12,7 +12,11 @@ const MyParcels = () => {
   const { user } = UseAuth();
   const axiosSecure = useAxiosSecure();
 
-  const { data: parcels = [], isLoading,refetch } = useQuery({
+  const {
+    data: parcels = [],
+    isLoading,
+    refetch,
+  } = useQuery({
     queryKey: ["my-parcels", user?.email],
     enabled: !!user?.email,
     queryFn: async () => {
@@ -20,7 +24,6 @@ const MyParcels = () => {
       return res.data;
     },
   });
-
 
   // Handle delete
   const handleDelete = async (id) => {
@@ -38,10 +41,14 @@ const MyParcels = () => {
           const res = await axiosSecure.delete(`/parcels/${id}`);
           if (res.data.deletedCount > 0) {
             Swal.fire("Deleted!", "Your parcel has been deleted.", "success");
-            refetch(); 
+            refetch();
             console.log(res.data);
           } else {
-            Swal.fire("Error", res.data.message || "Failed to delete parcel", "error");
+            Swal.fire(
+              "Error",
+              res.data.message || "Failed to delete parcel",
+              "error"
+            );
           }
         } catch (err) {
           Swal.fire("Error", "Something went wrong.", "error");
@@ -73,13 +80,15 @@ const MyParcels = () => {
                 <th>Status</th>
                 <th>Created At</th>
                 <th>Cost (৳)</th>
+                <th>Payment Status</th>
+
                 <th className="text-center">Actions</th>
               </tr>
             </thead>
             <tbody>
-              {parcels.map((parcel,index) => (
+              {parcels.map((parcel, index) => (
                 <tr key={parcel._id} className="hover:bg-gray-50">
-                   <td className="font-semibold">{index + 1}</td>
+                  <td className="font-semibold">{index + 1}</td>
                   <td className="capitalize font-medium">{parcel.type}</td>
                   <td>
                     <span
@@ -98,6 +107,17 @@ const MyParcels = () => {
                   <td className="font-semibold text-gray-700">
                     ৳ {parcel.totalCost || 0}
                   </td>
+                  <td>
+                    <span
+                      className={`px-3 py-2 rounded-full text-xs font-semibold ${
+                        parcel.paymentStatus === "Paid"
+                          ? "bg-green-100 text-green-600"
+                          : "bg-red-100 text-red-600"
+                      }`}
+                    >
+                      {parcel.paymentStatus || "Unpaid"}
+                    </span>
+                  </td>
                   <td className="flex  justify-center">
                     {/* View Details */}
                     <Link to={`/view-parcels-details/${parcel._id}`}>
@@ -108,26 +128,38 @@ const MyParcels = () => {
                         <FiEye />
                       </button>
                     </Link>
-                    <Tooltip id="view-details" place="top" content="View Details" />
+                    <Tooltip
+                      id="view-details"
+                      place="top"
+                      content="View Details"
+                    />
 
+                  
                     {/* Pay */}
-                  <Link to={`/dashboard/payment/${parcel._id}`}>
-                    <button
-                      data-tooltip-id="view-pay"
-                      disabled={parcel.paymentStatus === "Paid"}
-                      className={`p-2 rounded-lg text-xl cursor-pointer ${
-                        parcel.paymentStatus === "Paid"
-                          ? "text-gray-600 cursor-not-allowed"
-                          : "text-green-500"
-                      }`}
-                    >
-                      <FiCreditCard />
-                    </button>
-                    <Tooltip id="view-pay" place="top" content="Pay" /></Link>
+{parcel.paymentStatus === "Paid" ? (
+  <button
+    disabled
+    className="p-2 rounded-lg text-gray-600 text-xl cursor-not-allowed"
+    type="button"
+  >
+    <FiCreditCard />
+  </button>
+) : (
+  <Link to={`/dashboard/payment/${parcel._id}`}>
+    <button
+      data-tooltip-id="view-pay"
+      className="p-2 rounded-lg text-green-500 text-xl cursor-pointer"
+    >
+      <FiCreditCard />
+    </button>
+    <Tooltip id="view-pay" place="top" content="Pay" />
+  </Link>
+)}
+
 
                     {/* Delete */}
                     <button
-                    onClick={()=>handleDelete(parcel._id)}
+                      onClick={() => handleDelete(parcel._id)}
                       data-tooltip-id="view-delete"
                       className="p-2 rounded-lg text-red-500 text-xl cursor-pointer"
                     >

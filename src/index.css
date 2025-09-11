@@ -41,3 +41,17 @@
   box-shadow: 0 0 0 2px var(--primary-color, #0d9488);
   outline-offset: 2px;
 }
+
+.form-box-register .animation {
+  transform: translateX(120%);
+  opacity: 0;
+  filter: blur(10px);
+  transition: all 0.7s ease;
+}
+
+.container.active .animation {
+  transform: translateX(0);
+  opacity: 1;
+  filter: blur(0);
+  transition-delay: calc(0.1s * var(--li));
+}
