@@ -18,6 +18,8 @@ import DashboardLayout from "../Layouts/DashboardLayout";
 import ViewParcelsDetails from "../Pages/ViewParcelsDetails/ViewParcelsDetails";
 import MyParcels from "../Pages/Dashboard/MyParcels/MyParcels";
 import Payment from "../Pages/Dashboard/Payment/Payment";
+import PaymentHistory from "../Pages/Dashboard/PaymentHIstory/PaymentHistory";
+import TrackAPackage from "../Pages/Dashboard/trackAPackage/TrackAPackage";
 
 export const router = createBrowserRouter([
   {
@@ -60,7 +62,7 @@ export const router = createBrowserRouter([
         ),
         loader: () => fetch("../../public/district.json"),
       },
-        {
+      {
         path: "view-parcels-details/:id",
         element: (
           <PrivateRoutes>
@@ -68,7 +70,6 @@ export const router = createBrowserRouter([
           </PrivateRoutes>
         ),
       },
-     
     ],
   },
   {
@@ -99,35 +100,58 @@ export const router = createBrowserRouter([
       },
     ],
   },
-{
-  path: "/dashboard",
-  element: (
-    <PrivateRoutes>
-      <DashboardLayout />
-    </PrivateRoutes>
-  ),
-  children: [
-    {
-      index: true, 
-      element: <h2>Welcome to your dashboard</h2>,
-    },
-    {
-      path: "my-parcels", 
-      element: (
-        <PrivateRoutes>
-          <MyParcels/>
-        </PrivateRoutes>
-      ),
-    },
-    {
-      path: "payment/:parcelId", 
-      element: (
-        <PrivateRoutes>
-          <Payment/>
-        </PrivateRoutes>
-      ),
-    },
-  ],
-},
-
+  {
+    path: "/dashboard",
+    element: (
+      <PrivateRoutes>
+        <DashboardLayout />
+      </PrivateRoutes>
+    ),
+    children: [
+      {
+        index: true,
+        element: <h2>Welcome to your dashboard</h2>,
+      },
+      {
+        path: "my-parcels",
+        element: (
+          <PrivateRoutes>
+            <MyParcels />
+          </PrivateRoutes>
+        ),
+      },
+      {
+        path: "payment/:parcelId",
+        element: (
+          <PrivateRoutes>
+            <Payment />
+          </PrivateRoutes>
+        ),
+      },
+      {
+        path: "payment-history",
+        element: (
+          <PrivateRoutes>
+            <PaymentHistory />
+          </PrivateRoutes>
+        ),
+      },
+      {
+        path: "track-a-package",
+        element: (
+          <PrivateRoutes>
+            <TrackAPackage />
+          </PrivateRoutes>
+        ),
+      },
+      {
+        path: "track-a-package/:trackingId",
+        element: (
+          <PrivateRoutes>
+            <TrackAPackage />
+          </PrivateRoutes>
+        ),
+      },
+    ],
+  },
 ]);

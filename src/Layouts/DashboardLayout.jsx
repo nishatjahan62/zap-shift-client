@@ -1,10 +1,16 @@
 import React from "react";
-import { Link, Outlet } from "react-router";
+import { Link, NavLink, Outlet } from "react-router";
 import ProFastLogo from "../Pages/Shared/Project-Logo/ProFastLogo";
 import UseAuth from "../Hooks/UseAuth";
+import { FiHome, FiMap, FiUser, FiPackage, FiCreditCard } from "react-icons/fi";
 
 const DashboardLayout = () => {
   const { user } = UseAuth();
+
+  const linkClass = ({ isActive }) =>
+    `flex items-center text-lg font-semibold transition-colors ${
+      isActive ? "text-primary" : "text-secondary hover:text-primary"
+    }`;
 
   return (
     <div className="drawer drawer-mobile lg:drawer-open">
@@ -54,7 +60,6 @@ const DashboardLayout = () => {
           <div className="mb-6">
             <ProFastLogo />
           </div>
-
           {/* User info */}
           {user && (
             <div className="flex items-center mb-6">
@@ -69,40 +74,40 @@ const DashboardLayout = () => {
               </div>
             </div>
           )}
-
-          {/* Navigation links */}
+        
           <nav className="space-y-2">
-            <Link to="/" className="block text-gray-700 hover:text-blue-500">
-              Home
-            </Link>
-            <Link
-              to="/coverage"
-              className="block text-gray-700 hover:text-blue-500"
-            >
-              Coverage
-            </Link>
+            <NavLink to="/" className={linkClass}>
+              <FiHome className="mr-2 text-lg font-bold" /> Home
+            </NavLink>
+
+            <NavLink to="/coverage" className={linkClass}>
+              <FiMap className="mr-2" /> Coverage
+            </NavLink>
+
             {user && (
-              <Link
-                to="/dashboard/profile"
-                className="block text-gray-700 hover:text-blue-500"
-              >
-                Profile
-              </Link>
-            )}{" "}
+              <NavLink to="/dashboard/profile" className={linkClass}>
+                <FiUser className="mr-2" /> Profile
+              </NavLink>
+            )}
+
             {user && (
-              <Link
-                to="/dashboard/my-parcels"
-                className="block text-gray-700 hover:text-blue-500"
-              >
-                My Parcels
-              </Link>
+              <NavLink to="/dashboard/my-parcels" className={linkClass}>
+                <FiPackage className="mr-2" /> My Parcels
+              </NavLink>
+            )}
+
+            {user && (
+              <NavLink to="/dashboard/payment-history" className={linkClass}>
+                <FiCreditCard className="mr-2" /> Payment History
+              </NavLink>
+            )}
+
+            {user && (
+              <NavLink to="/dashboard/track-a-package" className={linkClass}>
+                <FiCreditCard className="mr-2" /> Track A Package
+              </NavLink>
             )}
           </nav>
-
-          {/* Logout */}
-          {user && (
-            <button className="btn btn-error mt-6 w-full">Logout</button>
-          )}
         </aside>
       </div>
     </div>
