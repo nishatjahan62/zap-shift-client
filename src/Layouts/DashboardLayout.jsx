@@ -85,7 +85,7 @@ const DashboardLayout = () => {
             </NavLink>
 
             {user && (
-              <NavLink to="/dashboard/profile" className={linkClass}>
+              <NavLink to="/dashboard/user-profile" className={linkClass}>
                 <FiUser className="mr-2" /> Profile
               </NavLink>
             )}

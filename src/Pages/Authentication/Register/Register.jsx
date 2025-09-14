@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import UseAuth from "../../../Hooks/UseAuth";
 import Swal from "sweetalert2";
+import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 
 const Register = () => {
   const {
@@ -11,14 +12,56 @@ const Register = () => {
     formState: { errors },
   } = useForm();
   const { createUser, setUser, updateUser } = UseAuth();
-  const onsubmit = (data) => {
+  const axiosSecure = useAxiosSecure();
+
+  const [image, setImage] = useState(null);
+  const navigation = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/";
+
+  const handleImageChange = (e) => {
+    if (e.target.files && e.target.files[0]) {
+      setImage(e.target.files[0]);
+    }
+  };
+
+  const onsubmit = async (data) => {
     const { name, email, password } = data;
+    let uploadedImageURL = "";
+
+    // image Upload
+    if (image) {
+      const formData = new FormData();
+      formData.append("image", image);
+
+      try {
+        const imageKey = import.meta.env.VITE_ImageBB_api_key;
+        const url = `https://api.imgbb.com/1/upload?key=${imageKey}`;
+
+        const res = await axiosSecure.post(url, formData, {
+          headers: { "Content-Type": "multipart/form-data" },
+        });
+
+        if (res.data.success) {
+          uploadedImageURL = res.data.data.url;
+          console.log(uploadedImageURL);
+        }
+      } catch (err) {
+        console.log("Image upload failed", err);
+
+        return;
+      }
+    }
+
+    // Create User in Firebase
     createUser(email, password)
       .then((res) => {
         const user = res.user;
-        updateUser({ displayName: name }).then(() => {
-          setUser({ ...user, displayName: name });
-        });
+        updateUser({ displayName: name, photoURL: uploadedImageURL }).then(
+          () => {
+            setUser({ ...user, displayName: name, photoURL: uploadedImageURL });
+          }
+        );
         Swal.fire({
           position: "center",
           icon: "success",
@@ -27,34 +70,45 @@ const Register = () => {
           showConfirmButton: false,
           timer: 1500,
         });
+        navigation(from);
       })
-      .catch((err) => {
-        console.log(err);
-      });
+      .catch((err) => console.log(err));
   };
+
   return (
-    <div className="w-full max-w-md ">
-      <h2 className="text-3xl font-bold text-gray-800 ">Create an account</h2>
+    <div className="w-full max-w-md">
+      <h2 className="text-3xl font-bold text-gray-800">Create an account</h2>
       <p className="py-1 mb-6 text-lg">Register with Profast</p>
       <form onSubmit={handleSubmit(onsubmit)} className="space-y-4">
+        {/* Profile Image */}
         <div>
-          {" "}
           <label className="block text-sm font-medium text-gray-600">
-            name
+            Profile Image
+          </label>
+          <input
+            type="file"
+            accept="image/*"
+            onChange={handleImageChange}
+            className="w-full mt-1"
+            required
+          />
+        </div>
+
+        {/* Name */}
+        <div>
+          <label className="block text-sm font-medium text-gray-600">
+            Name
           </label>
           <input
             type="text"
             {...register("name")}
-            name="name"
             className="w-full px-4 py-2 mt-1 border rounded-md focus:outline-none focus:ring-2 focus:ring-teal-400"
-            placeholder="your name"
+            placeholder="Your name"
             required
           />
-          {errors.email && <p role="alert">{errors.email.message}</p>}
-          {errors.email?.type === "required" && (
-            <p role="alert">{errors.email.message}</p>
-          )}
         </div>
+
+        {/* Email */}
         <div>
           <label className="block text-sm font-medium text-gray-600">
             Email
@@ -66,12 +120,9 @@ const Register = () => {
             placeholder="you@example.com"
             required
           />
-          {errors.email && <p role="alert">{errors.email.message}</p>}
-          {errors.email?.type === "required" && (
-            <p role="alert">{errors.email.message}</p>
-          )}
         </div>
 
+        {/* Password */}
         <div>
           <label className="block text-sm font-medium text-gray-600">
             Password
@@ -83,36 +134,25 @@ const Register = () => {
                 value: 6,
                 message: "Password must be at least 6 characters",
               },
-              pattern: {
-                value: /^[A-Za-z]+$/i,
-                message: "Only letters are allowed in the password",
-              },
             })}
             className="w-full px-4 py-2 mt-1 border rounded-md focus:outline-none focus:ring-2 focus:ring-teal-400"
             placeholder="Enter your password"
             required
           />
-
           {errors.password && (
-            <p role="alert" className="text-sm text-red-500 mt-1">
-              {errors.password.message}
-              {errors.password?.type === "required" && (
-                <p role="alert">{errors.password.message}</p>
-              )}
-            </p>
+            <p className="text-sm text-red-500">{errors.password.message}</p>
           )}
         </div>
 
         <button
           type="submit"
-          class=" rounded w-full py-2.5 overflow-hidden group bg-primary relative  hover:to-secondary text-white hover:ring-2 hover:ring-offset-2 hover:ring-primary transition-all ease-out duration-300"
+          className="rounded w-full py-2.5 bg-primary text-white hover:ring-2 hover:ring-offset-2 hover:ring-primary transition-all duration-300"
         >
-          <span class="absolute right-0  -mt-12 transition-all duration-1000 transform translate-x-12 bg-white opacity-10 rotate-12 group-hover:-translate-x-40 ease"></span>
-          <span class="relative text-black">Sign up</span>
+          Sign Up
         </button>
 
         <p className="text-sm text-center text-gray-600">
-          already have an account?{" "}
+          Already have an account?{" "}
           <Link
             to="/auth/login"
             className="text-teal-600 hover:underline font-bold"
