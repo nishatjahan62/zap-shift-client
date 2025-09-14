@@ -20,7 +20,7 @@ import MyParcels from "../Pages/Dashboard/MyParcels/MyParcels";
 import Payment from "../Pages/Dashboard/Payment/Payment";
 import PaymentHistory from "../Pages/Dashboard/PaymentHIstory/PaymentHistory";
 import TrackAPackage from "../Pages/Dashboard/trackAPackage/TrackAPackage";
-import Userprofile from "../Pages/Dashboard/UserProfile/Userprofile";
+import UserProfile from "../Pages/Dashboard/UserProfile/Userprofile";
 
 export const router = createBrowserRouter([
   {
@@ -157,7 +157,7 @@ export const router = createBrowserRouter([
         path: "user-profile",
         element: (
           <PrivateRoutes>
-            <Userprofile />
+            <UserProfile/>
           </PrivateRoutes>
         ),
       },
