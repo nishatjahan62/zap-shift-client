@@ -74,7 +74,7 @@ const DashboardLayout = () => {
               </div>
             </div>
           )}
-        
+
           <nav className="space-y-2">
             <NavLink to="/" className={linkClass}>
               <FiHome className="mr-2 text-lg font-bold" /> Home
@@ -83,6 +83,12 @@ const DashboardLayout = () => {
             <NavLink to="/coverage" className={linkClass}>
               <FiMap className="mr-2" /> Coverage
             </NavLink>
+
+            {user && (
+              <NavLink to="/Be-a-rider" className={linkClass}>
+                <FiUser className="mr-2" /> Be A Rider
+              </NavLink>
+            )}
 
             {user && (
               <NavLink to="/dashboard/user-profile" className={linkClass}>

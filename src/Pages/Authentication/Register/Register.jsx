@@ -3,7 +3,8 @@ import { useForm } from "react-hook-form";
 import { Link, useLocation, useNavigate } from "react-router";
 import UseAuth from "../../../Hooks/UseAuth";
 import Swal from "sweetalert2";
-import useAxiosSecure from "../../../Hooks/useAxiosSecure";
+import useAxios from "../../../Hooks/useAxios";
+import axios from "axios";
 
 const Register = () => {
   const {
@@ -12,12 +13,12 @@ const Register = () => {
     formState: { errors },
   } = useForm();
   const { createUser, setUser, updateUser } = UseAuth();
-  const axiosSecure = useAxiosSecure();
 
   const [image, setImage] = useState(null);
   const navigation = useNavigate();
   const location = useLocation();
   const from = location.state?.from?.pathname || "/";
+  const axiosInstance = useAxios();
 
   const handleImageChange = (e) => {
     if (e.target.files && e.target.files[0]) {
@@ -29,7 +30,7 @@ const Register = () => {
     const { name, email, password } = data;
     let uploadedImageURL = "";
 
-    // image Upload
+    // 1️⃣ Upload image to ImgBB if provided
     if (image) {
       const formData = new FormData();
       formData.append("image", image);
@@ -37,42 +38,61 @@ const Register = () => {
       try {
         const imageKey = import.meta.env.VITE_ImageBB_api_key;
         const url = `https://api.imgbb.com/1/upload?key=${imageKey}`;
-
-        const res = await axiosSecure.post(url, formData, {
+        const res = await axios.post(url, formData, {
           headers: { "Content-Type": "multipart/form-data" },
         });
 
         if (res.data.success) {
           uploadedImageURL = res.data.data.url;
-          console.log(uploadedImageURL);
         }
       } catch (err) {
-        console.log("Image upload failed", err);
-
+        console.log("Image upload failed:", err);
+        Swal.fire({ icon: "error", title: "Image Upload Failed" });
         return;
       }
     }
 
-    // Create User in Firebase
-    createUser(email, password)
-      .then((res) => {
-        const user = res.user;
-        updateUser({ displayName: name, photoURL: uploadedImageURL }).then(
-          () => {
-            setUser({ ...user, displayName: name, photoURL: uploadedImageURL });
-          }
-        );
-        Swal.fire({
-          position: "center",
-          icon: "success",
-          title: "Account Created",
-          text: "Your Account has been created successfully",
-          showConfirmButton: false,
-          timer: 1500,
-        });
-        navigation(from);
-      })
-      .catch((err) => console.log(err));
+    // 2️⃣ Create Firebase user
+    try {
+      const res = await createUser(email, password);
+      const user = res.user;
+
+      // 3️⃣ Update Firebase profile
+      await updateUser({ displayName: name, photoURL: uploadedImageURL });
+      setUser({ ...user, displayName: name, photoURL: uploadedImageURL });
+
+      // 4️⃣ Prepare backend userData
+      const userData = {
+        name,
+        email,
+        role: "user",
+        photoURL: uploadedImageURL,
+        
+      };
+
+      // 5️⃣ Save user in backend
+     const userRes= await axiosInstance.post("/users", userData);
+      console.log("user created",userRes.data);
+
+      // 6️⃣ Success message
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "Account Created",
+        text: "Your account has been created successfully",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+
+      navigation(from);
+    } catch (err) {
+      console.log("Registration failed:", err);
+      Swal.fire({
+        icon: "error",
+        title: "Registration Failed",
+        text: err.message,
+      });
+    }
   };
 
   return (

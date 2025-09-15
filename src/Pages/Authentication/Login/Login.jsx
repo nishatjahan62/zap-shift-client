@@ -11,14 +11,12 @@ const Login = () => {
   const location = useLocation();
   const from = location.state?.from?.pathname || "/";
 
-
   const { signIn } = UseAuth();
   const onsubmit = (data) => {
     const { email, password } = data;
     signIn(email, password)
       .then((result) => {
-        result.user;
-
+      console.log("logging in",result.user);
         Swal.fire({
           title: "Welcome Back!",
           text: "You have successfully logged in. ",
@@ -45,6 +43,7 @@ const Login = () => {
             {...register("email")}
             className="w-full px-4 py-2 mt-1 border rounded-md focus:outline-none focus:ring-2 focus:ring-teal-400"
             placeholder="you@example.com"
+            required
           />
         </div>
         <div>
@@ -56,6 +55,7 @@ const Login = () => {
             {...register("password")}
             className="w-full px-4 py-2 mt-1 border rounded-md focus:outline-none focus:ring-2 focus:ring-teal-400"
             placeholder="Enter your password"
+            required
           />
         </div>
         <button

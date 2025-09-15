@@ -21,6 +21,7 @@ import Payment from "../Pages/Dashboard/Payment/Payment";
 import PaymentHistory from "../Pages/Dashboard/PaymentHIstory/PaymentHistory";
 import TrackAPackage from "../Pages/Dashboard/trackAPackage/TrackAPackage";
 import UserProfile from "../Pages/Dashboard/UserProfile/Userprofile";
+import BeARider from "../Pages/BeARider/BeARider";
 
 export const router = createBrowserRouter([
   {
@@ -62,6 +63,16 @@ export const router = createBrowserRouter([
           </PrivateRoutes>
         ),
         loader: () => fetch("../../public/district.json"),
+      },
+      {
+        path: "Be-a-rider",
+        element: (
+          <PrivateRoutes>
+            <BeARider></BeARider>
+          </PrivateRoutes>
+        ),
+                loader: () => fetch("../../public/district.json"),
+
       },
       {
         path: "view-parcels-details/:id",
@@ -157,7 +168,7 @@ export const router = createBrowserRouter([
         path: "user-profile",
         element: (
           <PrivateRoutes>
-            <UserProfile/>
+            <UserProfile />
           </PrivateRoutes>
         ),
       },
