@@ -22,6 +22,8 @@ import PaymentHistory from "../Pages/Dashboard/PaymentHIstory/PaymentHistory";
 import TrackAPackage from "../Pages/Dashboard/trackAPackage/TrackAPackage";
 import UserProfile from "../Pages/Dashboard/UserProfile/Userprofile";
 import BeARider from "../Pages/BeARider/BeARider";
+import PendingRiders from "../Pages/Dashboard/PendingRiders/PendingRiders";
+import ActiveRiders from "../Pages/Dashboard/ActiveRiders/ActiveRiders";
 
 export const router = createBrowserRouter([
   {
@@ -71,8 +73,7 @@ export const router = createBrowserRouter([
             <BeARider></BeARider>
           </PrivateRoutes>
         ),
-                loader: () => fetch("../../public/district.json"),
-
+        loader: () => fetch("../../public/district.json"),
       },
       {
         path: "view-parcels-details/:id",
@@ -169,6 +170,22 @@ export const router = createBrowserRouter([
         element: (
           <PrivateRoutes>
             <UserProfile />
+          </PrivateRoutes>
+        ),
+      },
+      {
+        path: "pending-riders",
+        element: (
+          <PrivateRoutes>
+            <PendingRiders />
+          </PrivateRoutes>
+        ),
+      },
+      {
+        path: "active-riders",
+        element: (
+          <PrivateRoutes>
+            <ActiveRiders />
           </PrivateRoutes>
         ),
       },

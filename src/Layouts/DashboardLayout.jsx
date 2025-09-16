@@ -2,8 +2,17 @@ import React from "react";
 import { Link, NavLink, Outlet } from "react-router";
 import ProFastLogo from "../Pages/Shared/Project-Logo/ProFastLogo";
 import UseAuth from "../Hooks/UseAuth";
-import { FiHome, FiMap, FiUser, FiPackage, FiCreditCard } from "react-icons/fi";
-
+import {
+  FiHome,
+  FiMapPin,
+  FiUserPlus,
+  FiUser,
+  FiPackage,
+  FiCreditCard,
+  FiTruck,
+  FiCheckCircle,
+  FiClock,
+} from "react-icons/fi";
 const DashboardLayout = () => {
   const { user } = UseAuth();
 
@@ -74,46 +83,58 @@ const DashboardLayout = () => {
               </div>
             </div>
           )}
+    <nav className="space-y-2">
+      <NavLink to="/" className={linkClass}>
+        <FiHome className="mr-2 text-lg" /> Home
+      </NavLink>
 
-          <nav className="space-y-2">
-            <NavLink to="/" className={linkClass}>
-              <FiHome className="mr-2 text-lg font-bold" /> Home
-            </NavLink>
+      <NavLink to="/coverage" className={linkClass}>
+        <FiMapPin className="mr-2 text-lg" /> Coverage
+      </NavLink>
 
-            <NavLink to="/coverage" className={linkClass}>
-              <FiMap className="mr-2" /> Coverage
-            </NavLink>
+      {user && (
+        <NavLink to="/Be-a-rider" className={linkClass}>
+          <FiUserPlus className="mr-2 text-lg" /> Be A Rider
+        </NavLink>
+      )}
 
-            {user && (
-              <NavLink to="/Be-a-rider" className={linkClass}>
-                <FiUser className="mr-2" /> Be A Rider
-              </NavLink>
-            )}
+      {user && (
+        <NavLink to="/dashboard/user-profile" className={linkClass}>
+          <FiUser className="mr-2 text-lg" /> Profile
+        </NavLink>
+      )}
 
-            {user && (
-              <NavLink to="/dashboard/user-profile" className={linkClass}>
-                <FiUser className="mr-2" /> Profile
-              </NavLink>
-            )}
+      {user && (
+        <NavLink to="/dashboard/my-parcels" className={linkClass}>
+          <FiPackage className="mr-2 text-lg" /> My Parcels
+        </NavLink>
+      )}
 
-            {user && (
-              <NavLink to="/dashboard/my-parcels" className={linkClass}>
-                <FiPackage className="mr-2" /> My Parcels
-              </NavLink>
-            )}
+      {user && (
+        <NavLink to="/dashboard/payment-history" className={linkClass}>
+          <FiCreditCard className="mr-2 text-lg" /> Payment History
+        </NavLink>
+      )}
 
-            {user && (
-              <NavLink to="/dashboard/payment-history" className={linkClass}>
-                <FiCreditCard className="mr-2" /> Payment History
-              </NavLink>
-            )}
+      {user && (
+        <NavLink to="/dashboard/track-a-package" className={linkClass}>
+          <FiTruck className="mr-2 text-lg" /> Track A Package
+        </NavLink>
+      )}
 
-            {user && (
-              <NavLink to="/dashboard/track-a-package" className={linkClass}>
-                <FiCreditCard className="mr-2" /> Track A Package
-              </NavLink>
-            )}
-          </nav>
+      {/* Rider Management Links */}
+      {user && (
+        <NavLink to="/dashboard/active-riders" className={linkClass}>
+          <FiCheckCircle className="mr-2 text-lg" /> Active Riders
+        </NavLink>
+      )}
+
+      {user && (
+        <NavLink to="/dashboard/pending-riders" className={linkClass}>
+          <FiClock className="mr-2 text-lg" /> Pending Riders
+        </NavLink>
+      )}
+    </nav>
         </aside>
       </div>
     </div>

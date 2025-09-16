@@ -87,6 +87,20 @@ const Navbar = () => {
           </NavLink>
         </li>
       )}
+        {user && (
+        <li>
+          <NavLink
+            to="/be-a-rider"
+            className={({ isActive }) =>
+              isActive
+                ? "bg-primary text-[#03373d] font-extrabold px-4 py-2 rounded-lg shadow-md transition"
+                : "text-secondary font-semibold  hover:text-[#03373d] px-4 py-2 rounded-lg transition"
+            }
+          >
+            Be A Rider
+          </NavLink>
+        </li>
+      )}
     </ul>
   );
   return (

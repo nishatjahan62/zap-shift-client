@@ -12,9 +12,8 @@ const useAxiosSecure = () => {
   useEffect(() => {
     const interceptor = axiosSecure.interceptors.request.use(
       (config) => {
-        if (user?.accessToken) {
-          config.headers.Authorization = `Bearer ${user.accessToken}`;
-        }
+        config.headers.Authorization = `Bearer ${user.accessToken}`;
+
         return config;
       },
       (error) => Promise.reject(error)
